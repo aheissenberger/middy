@@ -13,6 +13,7 @@
 - [httpPartialResponse](#httppartialresponse)
 - [httpSecurityHeaders](#httpsecurityheaders)
 - [jsonBodyParser](#jsonbodyparser)
+- [jsonBodyMessagesParser](#jsonbodymessagesparser)
 - [s3KeyNormalizer](#s3keynormalizer)
 - [secretsManager](#secretsmanager)
 - [ssm](#ssm)
@@ -516,6 +517,36 @@ const event = {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({ foo: 'bar' })
+}
+handler(event, {}, (_, body) => {
+  expect(body).toEqual({ foo: 'bar' })
+})
+```
+## [jsonBodyMessagesParser](/src/middlewares/jsonBodyMessagesParser.js)
+
+Automatically parses multiple message events from SNS, SQS with a JSON body 
+and converts the body of all messages into an objects.
+
+It can also be used in combination with validator as a prior step to normalize the
+event body input as an object so that the content can be validated.
+
+
+```javascript
+const middy = require('middy')
+const { jsonBodyMessagesParser } = require('middy/middlewares')
+
+const handler = middy((event, context, cb) => {
+  cb(null, {})
+})
+
+handler.use(jsonBodyMessagesParser())
+
+// invokes the handler
+const event = {
+  Records: [ {
+    messageId: 'messageId',
+    body: JSON.stringify({foo: 'bar'})
+  }]
 }
 handler(event, {}, (_, body) => {
   expect(body).toEqual({ foo: 'bar' })
