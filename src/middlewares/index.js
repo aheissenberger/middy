@@ -9,6 +9,7 @@ module.exports = {
   httpHeaderNormalizer: require('./httpHeaderNormalizer'),
   httpPartialResponse: require('./httpPartialResponse'),
   httpSecurityHeaders: require('./httpSecurityHeaders'),
+  jsonBodyMessagesParser: require('./jsonBodyMessagesParser'),
   jsonBodyParser: require('./jsonBodyParser'),
   s3KeyNormalizer: require('./s3KeyNormalizer'),
   secretsManager: require('./secretsManager'),
